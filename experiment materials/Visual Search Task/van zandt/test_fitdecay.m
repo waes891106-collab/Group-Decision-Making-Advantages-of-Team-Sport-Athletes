@@ -1,0 +1,37 @@
+%t = 0:0.01:2;
+%p =[1.06,2.81,0.34]
+%y = decayfun(t,p);
+%plot(t,y);
+
+%t1=[0. 0.5, 1.0, 1.5, 2 ]';
+t1=[0	0.105	0.215	0.415	0.600]';
+%data = [y(1),y(51),y(101),y(151),y(201)]';
+data = [4.050083658	2.929539689	1.989365882	1.501187917	1.310087622]';
+
+s = fitoptions('Method','NonlinearLeastSquares');
+f = fittype('a + b*exp(-x/c)','coeff',{'a','b','c'},'options',s)
+
+[c2,gof2] = fit(t1,data,f)
+
+plot(t1,data, 'o')
+hold on
+plot(c2)
+
+% estimate p_e
+%p_e =[1,3,0.3]
+%y_fit = decayfun(t1, p_e)
+
+% calculate MLE
+%mle= -sum(log(abs(data - y_fit)))
+
+% fminsearch
+
+
+%p_mle =  MLE([1,3,0.3], 'decayfun',data)
+%p_mle =  MLE([1.06,2.81,0.34], 'decayfun',q)
+
+%p_fit = fminsearch('MLE',[1.05,2.90,0.3],optimset('MaxFunEvals',1),'decayfun',q)
+%p_fit = fminsearch('MLE',[1.05,2.90,0.3],optimset('MaxIter',1000),'decayfun',q)
+
+%y_fit =decayfun(t,p_fit);
+%plot(t,y_fit)
