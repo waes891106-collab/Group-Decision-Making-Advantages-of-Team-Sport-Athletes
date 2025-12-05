@@ -1,3 +1,10 @@
+Please make sure to update the path in line 6 to match the location where you stored this folder, and ensure that all required contents are included within that folder. 
+
+
+
+
+
+
 [Subject Session T D1 D2 Left/Right Trigger PICindex PICname FixationTime Response RT ACC ]
 
 Column 1: Subject

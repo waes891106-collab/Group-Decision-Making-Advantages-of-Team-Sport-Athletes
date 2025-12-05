@@ -1,0 +1,3 @@
+Pleas put the raw datasetin your own path and open the R file (GDM_opened_analysiscode) 
+change the path (line 18) to your own path, and then run it first
+, which let you understand the meaning about the dataset.

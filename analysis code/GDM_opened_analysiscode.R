@@ -99,6 +99,50 @@ dta_cleaned <- dta_cleaned %>%
 # Inspect filtered data
 head(dta_cleaned)
 
+##########################RT Plot
+dta_n <- dta %>%
+  group_by(Subject, Condition, SportType) %>%
+  summarize(n_Trials = n()) 
+
+# 計算平均 RT
+dta_mRT <- dta %>%
+  group_by(Subject, Condition, SportType) %>%
+  filter(Correct != "0") %>%
+  summarize(RT_m = round(mean(RT, na.rm = TRUE),0), .groups = "drop") 
+
+dta_mRT$Condition <- factor(dta_mRT$Condition, 
+                            levels = c("Non-verbal", "Verbal"),
+                            labels = c("Non-Collaborative", "Collaborative"))
+
+dta_mRT$SportType <- factor(dta_mRT$SportType, 
+                            levels = c("Individual", "Team"),
+                            labels = c("Individual Sport", "Team Sport"))
+
+##
+#plot
+dta_mRT %>% 
+  group_by(Condition, SportType) %>%
+  mutate(m_Value=mean(RT_m), 
+         se_Value=sd(RT_m)/sqrt(n())) %>%
+  ggplot() +
+  aes(Condition, m_Value, color=Condition, fill=Condition) +
+  geom_bar(stat="identity", position=position_dodge(0.7), width = 0.6,
+           size=0.8) +
+  geom_errorbar(aes(ymin=m_Value - se_Value,
+                    ymax=m_Value + se_Value),width=.25, size=1, 
+                position=position_dodge(.7)) +
+  geom_point(aes(x=Condition, y=RT_m, color=Condition, fill=Condition), position=position_jitterdodge(jitter.width = 0.4), 
+             alpha = 0.7, shape = 21, size = 2, stroke=1) +
+  scale_color_manual(values = c("#845116", "#9b71aa"))+
+  scale_fill_manual(values = c("#ebd94c", "#dbc6e0"))+
+  facet_grid(.~SportType)+
+  xlab("Condition") +
+  ylab("Mean RTs (msec)") +
+  theme_bw() +
+  theme(text = element_text(size = 12), legend.position = 'none')
+
+
+
 ###################### SFT
 ################### Capacity Coefficient
 library(dplyr)
